@@ -13,6 +13,8 @@
 
 O papel que o projeto realiza é de buscar informações de aplicativos na Google Play, tanto individualmente como em lista.
 
+<i>Projeto ainda em fase de desenvolvimento.</i>
+
 ### 🚀 Features e Tecnologias
 
 Esse projeto foi desenvolvido com [Node](https://nodejs.org/), utilizando o pacote auxiliar [google-play-scraper](https://github.com/facundoolano/google-play-scraper).
