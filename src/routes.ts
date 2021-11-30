@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
 
-import VersionController from './routes/VersionRoutes';
+import AppRoutes from './routes/AppRoutes';
 
 const routes = Router();
 
-routes.use('/version', VersionController);
+routes.use('/app', AppRoutes);
 
 export default routes;
