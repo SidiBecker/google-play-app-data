@@ -2,6 +2,7 @@ import gplay from 'google-play-scraper';
 
 async function getAppData(appId, lang, country) {
   try {
+    console.log('Trying to get info og app ', appId)
     const appData = await gplay.app({
       appId,
       lang: lang || 'en',
