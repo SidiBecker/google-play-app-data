@@ -19,7 +19,7 @@
     "sucrase": "^3.20.1"
   },
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "start": "nodemon src/server.ts"
   },
   "author": "SidiBecker",
   "license": "ISC"
