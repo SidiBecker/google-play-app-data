@@ -1,11 +1,11 @@
 import express from 'express';
-import errorHandler from './errors/handler';
+import errorHandler from './errors/handler.js';
 import cors from 'cors';
 import * as http from 'http';
 
 import 'express-async-errors';
 
-import routes from './routes';
+import routes from './routes.js';
 
 const app = express();
 

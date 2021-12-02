@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 
-import AppRoutes from './routes/AppRoutes';
+import AppRoutes from './routes/AppRoutes.js';
 
 const routes = Router();
 

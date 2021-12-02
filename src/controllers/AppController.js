@@ -1,7 +1,6 @@
-import { Request, Response } from 'express';
 import gplay from 'google-play-scraper';
 
-async function getAppData(appId: string, lang: string, country: string) {
+async function getAppData(appId, lang, country) {
   try {
     const appData = await gplay.app({
       appId,
@@ -15,11 +14,11 @@ async function getAppData(appId: string, lang: string, country: string) {
 }
 
 async function getAppListData(
-  packageIdList: string[],
-  lang: string,
-  country: string
+  packageIdList,
+  lang,
+  country
 ) {
-  const appDataList: any = [];
+  const appDataList = [];
 
   for (const appId of packageIdList) {
     try {
@@ -37,14 +36,14 @@ async function getAppListData(
   return appDataList;
 }
 
-async function getVersion(req: Request, res: Response) {
-  const { lang, country }: any = req.query;
+async function getVersion(req, res) {
+  const { lang, country } = req.query;
   const packageId = req.params.id;
   res.json(await getAppData(packageId, lang, country));
 }
 
-async function getAppDataList(req: Request, res: Response) {
-  const { lang, country, appIdList }: any = req.body;
+async function getAppDataList(req, res) {
+  const { lang, country, appIdList } = req.body;
   const appList = await getAppListData(appIdList, lang, country);
   res.json(appList);
 }

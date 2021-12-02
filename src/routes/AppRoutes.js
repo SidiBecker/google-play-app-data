@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 
-import AppController from '../controllers/AppController';
+import AppController from '../controllers/AppController.js';
 
 const routes = Router();
 
