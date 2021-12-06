@@ -2,7 +2,7 @@ import gplay from 'google-play-scraper';
 
 async function getAppData(appId, lang, country) {
   try {
-    console.log('Trying to get info og app ', appId)
+    console.log('Trying to get info og app ', appId);
     const appData = await gplay.app({
       appId,
       lang: lang || 'en',
@@ -14,11 +14,7 @@ async function getAppData(appId, lang, country) {
   }
 }
 
-async function getAppListData(
-  packageIdList,
-  lang,
-  country
-) {
+async function getAppListData(packageIdList, lang, country) {
   const appDataList = [];
 
   for (const appId of packageIdList) {
@@ -33,6 +29,8 @@ async function getAppListData(
       console.error(`Error on try to get data from app ${appId}`);
     }
   }
+
+  global.appList = appDataList;
 
   return appDataList;
 }
@@ -49,4 +47,21 @@ async function getAppDataList(req, res) {
   res.json(appList);
 }
 
-export default { getVersion, getAppDataList };
+async function getAppDataListFromCache(req, res) {
+  const { appIdList } = req.body;
+
+  if (global.appList != null && global.appList.length > 0) {
+    global.appList.filter((app) => appIdList.includes(app.appId));
+    return res.json(global.appList);
+  } else {
+    getAppDataList(req, res);
+  }
+}
+
+function getAppDataListFromStore(req, res) {
+  global.appList = [];
+
+  return getAppDataList(req, res);
+}
+
+export default { getVersion, getAppDataListFromStore, getAppDataListFromCache };

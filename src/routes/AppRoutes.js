@@ -6,6 +6,8 @@ const routes = Router();
 
 routes.get('/:id', AppController.getVersion);
 
-routes.post('/', AppController.getAppDataList);
+routes.post('/fromCache', AppController.getAppDataListFromCache);
+
+routes.post('/fromStore', AppController.getAppDataListFromStore);
 
 export default routes;
