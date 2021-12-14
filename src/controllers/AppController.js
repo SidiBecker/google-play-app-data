@@ -2,7 +2,6 @@ import gplay from 'google-play-scraper';
 
 async function getAppData(appId, lang, country) {
   try {
-    console.log('Trying to get info og app ', appId);
     const appData = await gplay.app({
       appId,
       lang: lang || 'en',
@@ -30,7 +29,7 @@ async function getAppListData(packageIdList, lang, country) {
     }
   }
 
-  global.appList = appDataList;
+  controlAppsCache(appDataList);
 
   return appDataList;
 }
@@ -48,14 +47,53 @@ async function getAppDataList(req, res) {
 }
 
 async function getAppDataListFromCache(req, res) {
-  const { appIdList } = req.body;
+  const { lang, country, appIdList } = req.body;
 
   if (global.appList != null && global.appList.length > 0) {
-    global.appList.filter((app) => appIdList.includes(app.appId));
-    return res.json(global.appList);
+
+    console.log(global.appList.length)
+
+    const responseData = [];
+    const appsToSearch = [];
+
+    appIdList.forEach((appId) => {
+      const app = global.appList.find((app) => (appId == app.appId));
+      if (app != null) {
+        responseData.push(app);
+      } else {
+        appsToSearch.push(appId);
+      }
+    });
+
+    if (appsToSearch.length > 0) {
+      appsToSearch.forEach(async (appId) => {
+        const app = await getAppData(appId, lang, country);
+        if (app) {
+          responseData.push(app);
+        }
+      });
+    }
+
+    controlAppsCache(responseData);
+
+    return res.json(responseData);
   } else {
     getAppDataList(req, res);
   }
+}
+
+function controlAppsCache(appDataList) {
+  if (global.appList == null) {
+    global.appList = [];
+  }
+
+  appDataList.forEach((appData) => {
+    global.appList = global.appList.filter(
+      (cachedAppData) => cachedAppData.appId != appData.appId
+    );
+
+    global.appList.push(appData);
+  });
 }
 
 function getAppDataListFromStore(req, res) {
